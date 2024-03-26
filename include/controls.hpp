@@ -32,6 +32,7 @@ public:
     void change_dir(Direction input) {self.dir = input;};
 
     void move(std::vector<std::vector<int>>);
+    void portal();
 
     virtual GameObjectStruct update(Game game) {return self;}; // update also returns the object
 

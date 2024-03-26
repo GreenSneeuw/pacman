@@ -16,4 +16,10 @@ void controls::move(std::vector<std::vector<int>> map) {
             if (map[self.y][self.x - 1] == 0) self.x -= 1;
             break;
     }
+    // portal
+    if (self.x < 0) self.x = map[self.y].size();
+    else if (self.x > map[self.y].size()) self.x = 0;
+    else if (self.y < 0) self.y = map.size();
+    else if (self.y > map.size()) self.y = 0;
+    
 };
