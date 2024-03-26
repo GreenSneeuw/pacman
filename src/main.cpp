@@ -4,6 +4,7 @@
 
 #include "GameObjectStruct.hpp"
 #include "UI.hpp"
+#include "game.hpp"
 #include <SDL2/SDL.h>
 #include <vector>
 
@@ -27,9 +28,9 @@ int main(int /*argc*/, char ** /*argv*/)
     std::vector<std::vector<int>> map = {{
         #include "board.def"
     }};
-
+    Game game(map);
     // Create a new ui object
-    UI ui(map); // <-- use map from your game objects.
+    UI ui(game.get_map()); // <-- use map from your game objects.
 
     // Start timer for game update, call this function every 100 ms.
     SDL_TimerID timer_id =
@@ -41,9 +42,9 @@ int main(int /*argc*/, char ** /*argv*/)
     pacman.y = 1;
     pacman.type = PACMAN;
     pacman.dir = UP;
-
+    
     // Call game init code here
-
+    game.add_object(pacman);
 
     bool quit = false;
     while (!quit) {
@@ -83,10 +84,10 @@ int main(int /*argc*/, char ** /*argv*/)
         ui.setLives(3); // <-- Pass correct value to the setter
 
         // Render the scene
-        std::vector<GameObjectStruct> objects = {pacman};
+        // std::vector<GameObjectStruct> objects = {pacman};
         // ^-- Your code should provide this vector somehow (e.g.
         // game->getStructs())
-        ui.update(objects);
+        ui.update(game.get_objects());
 
         while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
             // ... do work until timeout has elapsed
