@@ -5,8 +5,11 @@
 #include "GameObjectStruct.hpp"
 #include "UI.hpp"
 #include "game.hpp"
+#include "controls.hpp"
+#include "player.hpp"
 #include <SDL2/SDL.h>
 #include <vector>
+#include <iostream>
 
 /// Callback function to update the game state.
 ///
@@ -37,14 +40,10 @@ int main(int /*argc*/, char ** /*argv*/)
         SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
 
     // Example object, this can be removed later
-    GameObjectStruct pacman;
-    pacman.x = 1;
-    pacman.y = 1;
-    pacman.type = PACMAN;
-    pacman.dir = UP;
+    player player(1,1,PACMAN,DOWN,3);
     
     // Call game init code here
-    game.add_object(pacman);
+    game.add_object(player.get_object());
 
     bool quit = false;
     while (!quit) {
@@ -63,12 +62,19 @@ int main(int /*argc*/, char ** /*argv*/)
             if (e.type == SDL_KEYDOWN) {
                 switch (e.key.keysym.sym) {
                 case SDLK_LEFT: // YOUR CODE HERE
+                    player.change_dir(LEFT);
                     break;
                 case SDLK_RIGHT: // YOUR CODE HERE
+                    player.change_dir(RIGHT);
                     break;
                 case SDLK_UP: // YOUR CODE HERE
+                    player.change_dir(UP);
                     break;
                 case SDLK_DOWN: // YOUR CODE HERE
+                    player.change_dir(DOWN);
+                    break;
+                case SDLK_SPACE:
+                    player.add_score(100);
                     break;
                 case SDLK_ESCAPE:
                     quit = true;
@@ -76,18 +82,18 @@ int main(int /*argc*/, char ** /*argv*/)
                 }
             }
         }
-
+        player.update(game);
         // Set the score
-        ui.setScore(12345); // <-- Pass correct value to the setter
+        ui.setScore(player.get_score()); // <-- Pass correct value to the setter
 
         // Set the amount of lives
-        ui.setLives(3); // <-- Pass correct value to the setter
+        ui.setLives(player.get_lives()); // <-- Pass correct value to the setter
 
         // Render the scene
-        // std::vector<GameObjectStruct> objects = {pacman};
+        std::vector<GameObjectStruct> objects = {player.get_object()};
         // ^-- Your code should provide this vector somehow (e.g.
         // game->getStructs())
-        ui.update(game.get_objects());
+        ui.update(objects);
 
         while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
             // ... do work until timeout has elapsed
