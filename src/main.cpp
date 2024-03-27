@@ -5,8 +5,10 @@
 #include "GameObjectStruct.hpp"
 #include "UI.hpp"
 #include "game.hpp"
-#include "controls.hpp"
 #include "player.hpp"
+#include "Entities.hpp"
+#include "Entity.hpp"
+#include "dot.hpp"
 #include <SDL2/SDL.h>
 #include <vector>
 #include <iostream>
@@ -32,6 +34,14 @@ int main(int /*argc*/, char ** /*argv*/)
         #include "board.def"
     }};
     Game game(map);
+
+    for(int y = 0; y < map.size(); y++){
+        for (int x = 0; x < map[y].size(); x++){
+            if (map[y][x] == 0){
+                game.add_entity(new Dot(x,y));
+            }
+        }
+    }
     // Create a new ui object
     UI ui(game.get_map()); // <-- use map from your game objects.
 
@@ -40,10 +50,10 @@ int main(int /*argc*/, char ** /*argv*/)
         SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
 
     // Example object, this can be removed later
-    player player(1,1,PACMAN,DOWN,3);
+    Player player(1,1,DOWN,3);
     
     // Call game init code here
-    game.add_object(player.get_object());
+    game.add_entity(&player);
 
     bool quit = false;
     while (!quit) {
@@ -82,7 +92,7 @@ int main(int /*argc*/, char ** /*argv*/)
                 }
             }
         }
-        player.update(game);
+        player.update(game.get_map());
         // Set the score
         ui.setScore(player.get_score()); // <-- Pass correct value to the setter
 
@@ -90,7 +100,8 @@ int main(int /*argc*/, char ** /*argv*/)
         ui.setLives(player.get_lives()); // <-- Pass correct value to the setter
 
         // Render the scene
-        std::vector<GameObjectStruct> objects = {player.get_object()};
+        // std::vector<GameObjectStruct> objects = {player.get_object()};
+        std::vector<GameObjectStruct> objects = {game.get_objects()};
         // ^-- Your code should provide this vector somehow (e.g.
         // game->getStructs())
         ui.update(objects);

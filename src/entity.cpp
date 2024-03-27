@@ -1,6 +1,6 @@
-#include "controls.hpp"
+#include "Entity.hpp"
 
-void controls::move(std::vector<std::vector<int>> map) {
+void Entity::move(std::vector<std::vector<int>> map) {
 
     switch (self.dir){
         case UP:

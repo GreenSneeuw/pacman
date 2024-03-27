@@ -9,26 +9,25 @@
 #include <vector>
 #include "GameObjectStruct.hpp"
 #include "maze.hpp"
-#include "sprites.hpp"
+#include "Entities.hpp"
+#include "Entity.hpp"
 
-/// Abstract class with brief description.
-///
-/// More detailed text.
 class Game
 {
 private:
 Maze maze;
 bool finished;
-Sprites sprites;
+Entities entities;
 
 public:
     Game(std::vector<std::vector<int>> map):
     maze(Maze(map)) {};
 
     std::vector<std::vector<int>> get_map() {return maze.get_map();};
-    std::vector<GameObjectStruct> get_objects() {return sprites.get_sprites();};
+    std::vector<GameObjectStruct> get_objects() {return entities.get_objects();};
+    Entities get_entities() {return entities;} 
 
-    void add_object(GameObjectStruct object) {sprites.add_sprite(object);};
+    void add_entity(Entity *entity) {entities.add_Entity(entity);};
 };
 
 #endif /* GAME_H */

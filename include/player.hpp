@@ -8,26 +8,22 @@
 #include <string>
 #include <vector>
 #include "GameObjectStruct.hpp"
-#include "controls.hpp"
+#include "Entity.hpp"
 
-class player : public controls
+class Player : public Entity
 {
 private:
 int lives;
 
 public:
-    player(int start_x, int start_y, Type type, Direction start_dir, int lives):
-    controls(start_x, start_y, type, start_dir), lives(lives) {};
-
-    // GameObjectStruct get_object() {return self;}
-    // void move(Direction input) override {
-    //     self.dir = input;
-    // };
+    Player(int start_x, int start_y, Direction start_dir, int lives):
+    Entity(start_x, start_y, PACMAN, start_dir), lives(lives) {};
 
     int get_lives() override {return lives;};
 
-    GameObjectStruct update(Game game) override {
-        move(game.get_map());
+    GameObjectStruct update(std::vector<std::vector<int>> map) override {
+        move(map);
+        // collision();
         return get_object();
     };
 };
