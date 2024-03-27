@@ -9,6 +9,7 @@
 #include "Entities.hpp"
 #include "Entity.hpp"
 #include "dot.hpp"
+#include "Ghost.hpp"
 #include <SDL2/SDL.h>
 #include <vector>
 #include <iostream>
@@ -35,14 +36,15 @@ SDL_mutex *mutex = SDL_CreateMutex();
 Uint32 gameUpdate(Uint32 interval, void *param)
 {
     // Do game loop update here
-    // SDL_LockMutex(mutex);
+    SDL_LockMutex(mutex);
     CallbackParams *params = static_cast<CallbackParams*>(param); 
     Game *game = params->game;
     Player *player = params->player;
     
-    player->update(game->get_map());
-    game->collide_check(player);
-    // SDL_UnlockMutex(mutex);
+    // player->update(game->get_map());
+    // game->collide_check(player);
+    game->update_all();
+    SDL_UnlockMutex(mutex);
     return interval;
 }
 
@@ -64,20 +66,22 @@ int main(int /*argc*/, char ** /*argv*/)
     // Create a new ui object
     UI ui(game.get_map()); // <-- use map from your game objects.
 
-    // Start timer for game update, call this function every 100 ms.
-    
-
-    // Example object, this can be removed later
-    Player player(1,1,DOWN,3);
-    
-    // Call game init code here
+   
+    // create player
+    Player player(14,15,LEFT,3);
     game.add_entity(&player);
 
+    // create ghosts
+    game.add_entity(new Ghost(12, 13, BLINKY, UP));
+    game.add_entity(new Ghost(13, 13, PINKY, UP));
+    game.add_entity(new Ghost(14, 13, INKY, UP));
+    game.add_entity(new Ghost(15, 13, CLYDE, UP));
     //set the callback params
     CallbackParams* params = new CallbackParams;
     params->game = &game;
     params->player = &player;
 
+    // Start timer for game update, call this function every 100 ms.
     SDL_TimerID timer_id =
         SDL_AddTimer(100, gameUpdate, params);
     bool quit = false;

@@ -21,15 +21,17 @@ public:
     
     int get_score() {return score;};
     
-
+    
     int add_score(int input) {return score += input;}; // also return because why not
     void change_dir(Direction input) {self.dir = input;};
-
+    void reset(int x, int y) {self.x = x, self.y = y;};
     void move(std::vector<std::vector<int>>);
     GameObjectStruct get_object() {return self;};
 
-    virtual GameObjectStruct update(std::vector<std::vector<int>> map) {return self;}; // update also returns the object
 
+    virtual void movement() {};
+    virtual void update(std::vector<std::vector<int>> map) {}; 
+    virtual void add_lives(int input) {};
     virtual int get_lives() {return 0;};
 };
 

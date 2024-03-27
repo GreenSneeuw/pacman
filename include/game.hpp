@@ -16,8 +16,9 @@ class Game
 {
 private:
 Maze maze;
-bool finished;
 Entities entities;
+bool finished = false;
+bool reset = false;
 
 public:
     Game(std::vector<std::vector<int>> map):
@@ -27,6 +28,7 @@ public:
     std::vector<GameObjectStruct> get_objects() {return entities.get_objects();};
     Entities get_entities() {return entities;} 
 
+    void update_all();
     void collide_check(Entity*);
 
     void add_entity(Entity *entity) {entities.add_Entity(entity);};
