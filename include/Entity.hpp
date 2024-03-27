@@ -8,9 +8,8 @@
 #include <string>
 #include <vector>
 #include "GameObjectStruct.hpp"
-#include "Collider.hpp"
 
-class Entity : public Collider
+class Entity
 {
 GameObjectStruct self;
 int score = 0;
@@ -27,7 +26,6 @@ public:
     void change_dir(Direction input) {self.dir = input;};
 
     void move(std::vector<std::vector<int>>);
-    void portal();
     GameObjectStruct get_object() {return self;};
 
     virtual GameObjectStruct update(std::vector<std::vector<int>> map) {return self;}; // update also returns the object

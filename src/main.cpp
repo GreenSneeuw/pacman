@@ -12,6 +12,7 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <iostream>
+// #include <mutex>
 
 /// Callback function to update the game state.
 ///
@@ -21,9 +22,27 @@
 /// should use mutexes to access shared data.
 /// Read the documentation of SDL_AddTimer for more information and for tips
 /// regarding multithreading issues.
-Uint32 gameUpdate(Uint32 interval, void * /*param*/)
+
+// std::mutex mutex_lock;
+// SDL_mutex *mutex;
+struct CallbackParams {
+    Game *game;
+    Player *player;
+};
+
+SDL_mutex *mutex = SDL_CreateMutex();
+
+Uint32 gameUpdate(Uint32 interval, void *param)
 {
     // Do game loop update here
+    // SDL_LockMutex(mutex);
+    CallbackParams *params = static_cast<CallbackParams*>(param); 
+    Game *game = params->game;
+    Player *player = params->player;
+    
+    player->update(game->get_map());
+    game->collide_check(player);
+    // SDL_UnlockMutex(mutex);
     return interval;
 }
 
@@ -46,8 +65,7 @@ int main(int /*argc*/, char ** /*argv*/)
     UI ui(game.get_map()); // <-- use map from your game objects.
 
     // Start timer for game update, call this function every 100 ms.
-    SDL_TimerID timer_id =
-        SDL_AddTimer(100, gameUpdate, static_cast<void *>(nullptr));
+    
 
     // Example object, this can be removed later
     Player player(1,1,DOWN,3);
@@ -55,9 +73,17 @@ int main(int /*argc*/, char ** /*argv*/)
     // Call game init code here
     game.add_entity(&player);
 
+    //set the callback params
+    CallbackParams* params = new CallbackParams;
+    params->game = &game;
+    params->player = &player;
+
+    SDL_TimerID timer_id =
+        SDL_AddTimer(100, gameUpdate, params);
     bool quit = false;
     while (!quit) {
         // set timeout to limit frame rate
+        // SDL_LockMutex(mutex);
         Uint32 timeout = SDL_GetTicks() + 20;
 
         // Handle the input
@@ -92,7 +118,7 @@ int main(int /*argc*/, char ** /*argv*/)
                 }
             }
         }
-        player.update(game.get_map());
+
         // Set the score
         ui.setScore(player.get_score()); // <-- Pass correct value to the setter
 
@@ -100,12 +126,14 @@ int main(int /*argc*/, char ** /*argv*/)
         ui.setLives(player.get_lives()); // <-- Pass correct value to the setter
 
         // Render the scene
-        // std::vector<GameObjectStruct> objects = {player.get_object()};
         std::vector<GameObjectStruct> objects = {game.get_objects()};
         // ^-- Your code should provide this vector somehow (e.g.
         // game->getStructs())
-        ui.update(objects);
+        
+        // SDL_UnlockMutex(mutex);
 
+        ui.update(objects);
+        
         while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
             // ... do work until timeout has elapsed
         }

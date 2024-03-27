@@ -27,6 +27,8 @@ public:
     std::vector<GameObjectStruct> get_objects() {return entities.get_objects();};
     Entities get_entities() {return entities;} 
 
+    void collide_check(Entity*);
+
     void add_entity(Entity *entity) {entities.add_Entity(entity);};
 };
 

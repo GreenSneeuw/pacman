@@ -39,9 +39,10 @@ $(OBJDIR):
 
 # Clean rule
 clean:
-	rm $(TARGET)
+	
 	rm $(OBJS)
 	rmdir $(OBJDIR)
+	rm $(TARGET)
 
 # Phony targets
 .PHONY: all clean
