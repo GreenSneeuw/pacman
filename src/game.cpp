@@ -1,5 +1,5 @@
 #include "Game.hpp"
-#include "time.h"
+#include <ctime>
 #include <cmath>
 
 u_int32_t start_time = 0;
@@ -34,12 +34,26 @@ void Game::update_all(){
         }
         // remove marked entities
         for(std::vector<Entity*>::iterator it = entities_vector->begin(); it != entities_vector->end();){
-            if((*it)->getScare() && time(NULL) - start_time == 8){
-                (*it)->change_type((*it)->get_realType());  // reset scared to original type
-                (*it)->scare();
-                ghosts_eaten = 0;
-            } else if((*it)->getScare()){
-                (*it)->change_type(SCARED);
+            if((*it)->getScare()){ // 8 seconds
+                u_int32_t scared_time = time(NULL) - start_time;
+                if (scared_time > 7){
+                    (*it)->change_type((*it)->get_realType());  // reset scared to original type
+                    (*it)->scare();
+                    ghosts_eaten = 0;
+                }
+                else if (scared_time > 4){ // make ghost flicker after 5 seconds
+                    switch ((*it)->get_object().type){
+                        case SCARED:
+                            (*it)->change_type(SCAREDINV);
+                            break;
+                        case SCAREDINV:
+                            (*it)->change_type(SCARED);
+                            break;
+                    }
+                }
+                else{
+                    (*it)->change_type(SCARED);
+                }
             }
             if((*it)->getMark()){
                 *entities_vector->erase(it);
@@ -52,7 +66,7 @@ void Game::update_all(){
 }
 
 void Game::collide_check(Entity *input, std::vector<Entity*>* entities_vector){
-    // for(Entity* it : *entities_vector){
+
     if (input->get_object().type == PACMAN){
         for(std::vector<Entity*>::iterator it = entities_vector->begin(); it != entities_vector->end();it++){
             if ((*it)->get_object().type != PACMAN){ // skip the cycle when the iterator is pacman
