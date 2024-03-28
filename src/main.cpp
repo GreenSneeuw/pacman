@@ -112,20 +112,17 @@ int main(int /*argc*/, char ** /*argv*/)
             // All keydown events
             if (e.type == SDL_KEYDOWN) {
                 switch (e.key.keysym.sym) {
-                case SDLK_LEFT: // YOUR CODE HERE
+                case SDLK_LEFT:
                     player.change_dir(LEFT);
                     break;
-                case SDLK_RIGHT: // YOUR CODE HERE
+                case SDLK_RIGHT:
                     player.change_dir(RIGHT);
                     break;
-                case SDLK_UP: // YOUR CODE HERE
+                case SDLK_UP:
                     player.change_dir(UP);
                     break;
-                case SDLK_DOWN: // YOUR CODE HERE
+                case SDLK_DOWN:
                     player.change_dir(DOWN);
-                    break;
-                case SDLK_SPACE:
-                    player.add_score(100);
                     break;
                 case SDLK_ESCAPE:
                     quit = true;

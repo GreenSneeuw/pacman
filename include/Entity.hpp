@@ -12,6 +12,7 @@
 class Entity
 {
 GameObjectStruct self;
+Direction buffered_dir;
 int score = 0;
 bool toBeRemoved = false;
 bool toBeScared = false;
@@ -32,7 +33,7 @@ public:
 
     virtual Type get_realType() {return DOT;};
 
-    void change_dir(Direction input) {self.dir = input;}; // movement
+    void change_dir(Direction input) {buffered_dir = input;}; // movement
     void move(std::vector<std::vector<int>>);
     
     void reset(int x, int y) {self.x = x, self.y = y;}; // resetting

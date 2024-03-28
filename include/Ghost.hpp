@@ -26,7 +26,6 @@ public:
     void update(std::vector<std::vector<int>> map) override {
         movement();
         move(map);
-        // collision();
     };
 };
 
