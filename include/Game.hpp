@@ -21,6 +21,7 @@ Entities entities;
 bool finished = false;
 bool reset = false;
 int ghosts_eaten = 0;
+std::pair<int,int> add_fruit = {-1,-1};
 
 public:
     Game(std::vector<std::vector<int>> map):

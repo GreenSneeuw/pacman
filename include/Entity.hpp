@@ -14,7 +14,7 @@ class Entity
 GameObjectStruct self;
 Direction buffered_dir;
 int score = 0;
-int threshold = 70;
+int threshold = 700;
 bool toBeRemoved = false;
 bool toBeScared = false;
 bool toBeMoved = false;

@@ -16,7 +16,6 @@
 #include <vector>
 #include <iostream>
 #include <ctime>
-// #include <mutex>
 
 /// Callback function to update the game state.
 ///
@@ -125,17 +124,6 @@ int main(int /*argc*/, char ** /*argv*/)
                     break;
                 }
             }
-        }
-
-        if (player.get_score() > player.get_threshold()){
-            int x, y;
-            while (1){
-                x = rand() % map.size();
-                y = rand() % map.size();
-                if (map[y][x] == 0){break;}
-            }
-            game.add_entity(new Fruit(x, y));
-            player.add_threshold(1000);
         }
 
         // Set the score

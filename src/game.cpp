@@ -1,8 +1,6 @@
 #include "Game.hpp"
-#include "Player.hpp"
 #include <ctime>
 #include <cmath>
-#include <iostream>
 
 u_int32_t start_time = 0;
 
@@ -35,8 +33,21 @@ void Game::update_all(){
                 collide_check(*it, entities_vector);
             }
         }
-        // remove marked entities
+        // another loop for other stuff
         for(std::vector<Entity*>::iterator it = entities_vector->begin(); it != entities_vector->end();){
+            if ((*it)->get_object().type == PACMAN){ // fruits
+                if ((*it)->get_score() > (*it)->get_threshold()){
+            int x, y;
+            std::vector<std::vector<int>> map = maze.get_map();
+            while (1){
+                x = rand() % map.size();
+                y = rand() % map[0].size();
+                if (map[y][x] == 0){break;}
+            }
+            add_fruit = {x, y};
+            (*it)->add_threshold(1000);
+        }
+            }
             if((*it)->getScare()){ // 8 seconds
                 u_int32_t scared_time = time(NULL) - start_time;
                 if (scared_time > 7){
@@ -58,12 +69,16 @@ void Game::update_all(){
                     (*it)->change_type(SCARED);
                 }
             }
-            if((*it)->getMark()){
+            if((*it)->getMark()){ // erase marked from list
                 *entities_vector->erase(it);
             } 
             else {
                 it++;
             }
+        }
+        if (add_fruit.first != -1){
+            add_entity(new Fruit (add_fruit.first, add_fruit.second));
+            add_fruit = {-1,-1};
         }
     }
 }
@@ -114,7 +129,7 @@ void Game::collide_check(Entity *input, std::vector<Entity*>* entities_vector){
                             } else if (type > 6 && type < 13){ // fruits
                                 // (*it)->markToMove();
                                 (*it)->markToRemove();
-                                input->add_score(10 * type); // points for a fruit
+                                input->add_score(100 * pow(2, type-5)); // points for a fruit
                             }
                             break;
                     }
