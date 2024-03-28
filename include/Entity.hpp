@@ -16,6 +16,7 @@ Direction buffered_dir;
 int score = 0;
 bool toBeRemoved = false;
 bool toBeScared = false;
+bool toBeMoved = false;
 
 public:
     Entity(int start_x, int start_y, Type type, Direction start_dir):
@@ -30,6 +31,9 @@ public:
 
     void scare() {toBeScared = !toBeScared;};  // marking to be set to scared
     bool getScare() {return toBeScared;};
+
+    void markToMove() {toBeMoved = !toBeMoved;}; // marking to be erased
+    bool getMoved() {return toBeMoved;};
 
     virtual Type get_realType() {return DOT;};
 

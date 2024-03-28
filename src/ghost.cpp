@@ -3,6 +3,7 @@
 #include <ctime>
 
 void Ghost::movement() {
+    // srand(time(NULL));
         switch (self_type)
     { // very random movement yes
     case BLINKY:

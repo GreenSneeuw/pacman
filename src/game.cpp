@@ -1,8 +1,12 @@
 #include "Game.hpp"
 #include <ctime>
 #include <cmath>
+#include <iostream>
 
 u_int32_t start_time = 0;
+std::vector<std::vector<int>> map = {{
+    #include "board.def"
+}};
 void Game::update_all(){
     std::vector<Entity*>* entities_vector = entities.get_entities();
     if(finished){
@@ -57,6 +61,16 @@ void Game::update_all(){
             }
             if((*it)->getMark()){
                 *entities_vector->erase(it);
+            } else if((*it)->getMoved()){
+                (*it)->markToMove();
+                int x, y;
+                for(int i = 0; i>=1;){
+                    x = rand() % 32;
+                    y = rand() % 32;
+                    if (map[y][x] == 0){i++;}
+                    std::cout << x << ", " << y << std::endl;
+                }
+                (*it)->reset(x,y);
             }
             else {
                 it++;
@@ -108,6 +122,9 @@ void Game::collide_check(Entity *input, std::vector<Entity*>* entities_vector){
                                 else{
                                     reset = true;
                                 }
+                            } else if (type > 6 && type < 13){ // fruits
+                                (*it)->markToMove();
+                                input->add_score(100); // 10 points for a fruit
                             }
                             break;
                     }

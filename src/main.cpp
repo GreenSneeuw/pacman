@@ -11,9 +11,11 @@
 #include "Dot.hpp"
 #include "Energizer.hpp"
 #include "Ghost.hpp"
+#include "Fruit.hpp"
 #include <SDL2/SDL.h>
 #include <vector>
 #include <iostream>
+#include <ctime>
 // #include <mutex>
 
 /// Callback function to update the game state.
@@ -44,7 +46,7 @@ int main(int /*argc*/, char ** /*argv*/)
         #include "board.def"
     }};
     Game game(map);
-
+    srand(time(NULL));
     for(int y = 0; y < map.size(); y++){
         for (int x = 0; x < map[y].size(); x++){
             if (y == 1 && x == 1) {
@@ -62,6 +64,9 @@ int main(int /*argc*/, char ** /*argv*/)
             }
         }
     }
+
+    game.add_entity(new Fruit(11, 5));
+
     // Create a new ui object
     UI ui(game.get_map()); // <-- use map from your game objects.
 
