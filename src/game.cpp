@@ -3,14 +3,8 @@
 #include <ctime>
 #include <cmath>
 #include <iostream>
-#include "Fruit.hpp"
 
 u_int32_t start_time = 0;
-std::vector<std::vector<int>> map = {{
-    #include "board.def"
-}};
-Game game(map);
-bool put_fruit = false;
 
 void Game::update_all(){
     std::vector<Entity*>* entities_vector = entities.get_entities();
@@ -71,16 +65,6 @@ void Game::update_all(){
                 it++;
             }
         }
-    }
-    if (put_fruit){
-        put_fruit = false;
-        int x, y;
-        while (1){
-            x = rand() % map.size();
-            y = rand() % map.size();
-            if (map[y][x] == 0){break;}
-        }
-        game.add_entity(new Fruit(x, y));
     }
 }
 
