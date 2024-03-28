@@ -14,6 +14,7 @@ class Entity
 GameObjectStruct self;
 int score = 0;
 bool toBeRemoved = false;
+bool toBeScared = false;
 
 public:
     Entity(int start_x, int start_y, Type type, Direction start_dir):
@@ -26,12 +27,19 @@ public:
     void markToRemove() {toBeRemoved = true;}; // marking to be erased
     bool getMark() {return toBeRemoved;};
 
+    void scare() {toBeScared = !toBeScared;};  // marking to be set to scared
+    bool getScare() {return toBeScared;};
+
+    virtual Type get_realType() {return DOT;};
+
     void change_dir(Direction input) {self.dir = input;}; // movement
     void move(std::vector<std::vector<int>>);
     
     void reset(int x, int y) {self.x = x, self.y = y;}; // resetting
     
     GameObjectStruct get_object() {return self;}; // struct retrieval
+
+    void change_type(Type type) {self.type = type;};
 
     // virtual functions
     virtual void movement() {};

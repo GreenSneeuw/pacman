@@ -1,5 +1,8 @@
 #include "Game.hpp"
+#include "time.h"
+#include <iostream>
 
+u_int32_t start_time = 0;
 void Game::update_all(){
     std::vector<Entity*>* entities_vector = entities.get_entities();
     if(finished){
@@ -31,6 +34,12 @@ void Game::update_all(){
         }
         // remove marked entities
         for(std::vector<Entity*>::iterator it = entities_vector->begin(); it != entities_vector->end();){
+            if((*it)->getScare() && time(NULL) - start_time == 8){
+                (*it)->change_type((*it)->get_realType());  // reset scared/invis to original type
+                (*it)->scare();
+            } else if((*it)->getScare()){
+                (*it)->change_type(SCARED);
+            }
             if((*it)->getMark()){
                 *entities_vector->erase(it);
             }
@@ -58,11 +67,25 @@ void Game::collide_check(Entity *input, std::vector<Entity*>* entities_vector){
                 }
                 if ((*it)->get_object().type == SCARED){
                     // scared collision
+                    (*it)->reset(14,13);
+                    (*it)->scare();
+                    (*it)->change_type((*it)->get_realType());  // reset scared/invis to original type
+                    input->add_score(500);
                 }
                 if ((*it)->get_object().type == DOT){
                     // *entities_vector->erase(it);
                     (*it)->markToRemove();
                     input->add_score(100);
+                }
+                if ((*it)->get_object().type == ENERGIZER){
+                    // *entities_vector->erase(it);
+                    (*it)->markToRemove();
+                    start_time = time(NULL);
+                    for(std::vector<Entity*>::iterator it2 = entities_vector->begin(); it2 != entities_vector->end();it2++){
+                        if ((*it2)->get_object().type > 0 && (*it2)->get_object().type < 5){
+                            (*it2)->scare();
+                        }
+                    }
                 }
                 // else it++;
             }

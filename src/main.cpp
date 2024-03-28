@@ -9,6 +9,7 @@
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "Dot.hpp"
+#include "Energizer.hpp"
 #include "Ghost.hpp"
 #include <SDL2/SDL.h>
 #include <vector>
@@ -58,7 +59,17 @@ int main(int /*argc*/, char ** /*argv*/)
 
     for(int y = 0; y < map.size(); y++){
         for (int x = 0; x < map[y].size(); x++){
-            if (map[y][x] == 0){
+            if (y == 1 && x == 1) {
+                game.add_entity(new Energizer(x,y));
+            } else if (y == 1 && x == 1) {
+                game.add_entity(new Energizer(x,y));
+            } else if (y == 1 && x == map.size()-1) {
+                game.add_entity(new Energizer(x,y));
+            } else if (y == map.size()-2 && x == 1) {
+                game.add_entity(new Energizer(x,y));
+            } else if (y == map.size()-2 && x == map.size()-1) {
+                game.add_entity(new Energizer(x,y));
+            } else if (map[y][x] == 0){
                 game.add_entity(new Dot(x,y));
             }
         }
