@@ -40,4 +40,4 @@ List of authors who have contributed:
 - Marijn T. Keyser
 - Johan B. C. Engelen
 - Jaimie M. Jellema
-- Frits P. Kuipers
+- Frits P. Kuipers 
