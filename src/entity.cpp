@@ -3,9 +3,9 @@
 void Entity::move(std::vector<std::vector<int>> map) {
     // portal
     if (self.x < 0) self.x = map[self.y].size() - 1;
-    else if (self.x > map[self.y].size()) self.x = 0; 
+    else if (self.x > map[self.y].size()-1) self.x = 0; 
     else if (self.y < 0) self.y = map.size() - 1;
-    else if (self.y > map.size()) self.y = 0;
+    else if (self.y > map.size()-1) self.y = 0;
     
     else{ // if not portal, do normal movement
         if (buffered_dir != self.dir){ // input buffering

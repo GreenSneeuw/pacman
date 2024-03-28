@@ -40,8 +40,8 @@ void Game::update_all(){
             int x, y;
             std::vector<std::vector<int>> map = maze.get_map();
             while (1){
-                x = rand() % map.size();
-                y = rand() % map[0].size();
+                x = rand() % map[0].size();
+                y = rand() % map.size();
                 if (map[y][x] == 0){break;}
             }
             add_fruit = {x, y};
@@ -62,6 +62,8 @@ void Game::update_all(){
                             break;
                         case SCAREDINV:
                             (*it)->change_type(SCARED);
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -129,7 +131,7 @@ void Game::collide_check(Entity *input, std::vector<Entity*>* entities_vector){
                             } else if (type > 6 && type < 13){ // fruits
                                 // (*it)->markToMove();
                                 (*it)->markToRemove();
-                                input->add_score(100 * pow(2, type-5)); // points for a fruit
+                                input->add_score(100 * (type-5)); // points for a fruit
                             }
                             break;
                     }
