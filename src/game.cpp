@@ -64,13 +64,13 @@ void Game::update_all(){
             } else if((*it)->getMoved()){
                 (*it)->markToMove();
                 int x, y;
-                for(int i = 0; i>=1;){
-                    x = rand() % 32;
-                    y = rand() % 32;
-                    if (map[y][x] == 0){i++;}
-                    std::cout << x << ", " << y << std::endl;
+                while (1){
+                    x = rand() % map.size();
+                    y = rand() % map.size();
+                    if (map[y][x] == 0){break;}
                 }
                 (*it)->reset(x,y);
+                (*it)->change_type((*it)->change_fruit());
             }
             else {
                 it++;

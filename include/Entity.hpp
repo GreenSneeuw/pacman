@@ -36,6 +36,7 @@ public:
     bool getMoved() {return toBeMoved;};
 
     virtual Type get_realType() {return DOT;};
+    virtual Type change_fruit() {return APPLE;};
 
     void change_dir(Direction input) {buffered_dir = input;}; // movement
     void move(std::vector<std::vector<int>>);
