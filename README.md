@@ -33,9 +33,7 @@
 This program relies on the external dependency [SDL2](http://www.libsdl.org).
 Since we only worked on arch based linux distro, heres how to install.
 
-    ```bash
     $ sudo pacman -S sdl2
-    ```
 
 ## Authors
 
