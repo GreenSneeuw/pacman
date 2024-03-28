@@ -65,7 +65,13 @@ int main(int /*argc*/, char ** /*argv*/)
         }
     }
 
-    game.add_entity(new Fruit(11, 5));
+    // int x, y;
+    // while (1){
+    //     x = rand() % map.size();
+    //     y = rand() % map.size();
+    //     if (map[y][x] == 0){break;}
+    // }
+    // game.add_entity(new Fruit(x, y));
 
     // Create a new ui object
     UI ui(game.get_map()); // <-- use map from your game objects.
@@ -119,6 +125,17 @@ int main(int /*argc*/, char ** /*argv*/)
                     break;
                 }
             }
+        }
+
+        if (player.get_score() > player.get_threshold()){
+            int x, y;
+            while (1){
+                x = rand() % map.size();
+                y = rand() % map.size();
+                if (map[y][x] == 0){break;}
+            }
+            game.add_entity(new Fruit(x, y));
+            player.add_threshold(1000);
         }
 
         // Set the score

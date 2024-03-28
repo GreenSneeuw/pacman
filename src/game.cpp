@@ -1,12 +1,17 @@
 #include "Game.hpp"
+#include "Player.hpp"
 #include <ctime>
 #include <cmath>
 #include <iostream>
+#include "Fruit.hpp"
 
 u_int32_t start_time = 0;
 std::vector<std::vector<int>> map = {{
     #include "board.def"
 }};
+Game game(map);
+bool put_fruit = false;
+
 void Game::update_all(){
     std::vector<Entity*>* entities_vector = entities.get_entities();
     if(finished){
@@ -61,21 +66,21 @@ void Game::update_all(){
             }
             if((*it)->getMark()){
                 *entities_vector->erase(it);
-            } else if((*it)->getMoved()){
-                (*it)->markToMove();
-                int x, y;
-                while (1){
-                    x = rand() % map.size();
-                    y = rand() % map.size();
-                    if (map[y][x] == 0){break;}
-                }
-                (*it)->reset(x,y);
-                (*it)->change_type((*it)->change_fruit());
-            }
+            } 
             else {
                 it++;
             }
         }
+    }
+    if (put_fruit){
+        put_fruit = false;
+        int x, y;
+        while (1){
+            x = rand() % map.size();
+            y = rand() % map.size();
+            if (map[y][x] == 0){break;}
+        }
+        game.add_entity(new Fruit(x, y));
     }
 }
 
@@ -123,8 +128,9 @@ void Game::collide_check(Entity *input, std::vector<Entity*>* entities_vector){
                                     reset = true;
                                 }
                             } else if (type > 6 && type < 13){ // fruits
-                                (*it)->markToMove();
-                                input->add_score(100); // 10 points for a fruit
+                                // (*it)->markToMove();
+                                (*it)->markToRemove();
+                                input->add_score(10 * type); // points for a fruit
                             }
                             break;
                     }

@@ -14,6 +14,7 @@ class Entity
 GameObjectStruct self;
 Direction buffered_dir;
 int score = 0;
+int threshold = 70;
 bool toBeRemoved = false;
 bool toBeScared = false;
 bool toBeMoved = false;
@@ -25,6 +26,9 @@ public:
     
     int get_score() {return score;}; // score retrieval and adding
     int add_score(int input) {return score += input;};
+
+    int get_threshold() {return threshold;}; // score retrieval and adding
+    int add_threshold(int input) {return threshold += input;};
 
     void markToRemove() {toBeRemoved = true;}; // marking to be erased
     bool getMark() {return toBeRemoved;};

@@ -34,7 +34,6 @@ public:
     void collide_check(Entity *input, std::vector<Entity*>* entities_vector);
 
     void add_entity(Entity *entity) {entities.add_Entity(entity);};
-    // void add_fruit() {fruit.add_Fruit();};
 };
 
 #endif /* GAME_H */
