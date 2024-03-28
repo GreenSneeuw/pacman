@@ -2,7 +2,7 @@
 CC = g++
 
 # Compiler flags
-CFLAGS = -Wall -Wextra -Iinclude `sdl2-config --cflags`
+CFLAGS = -Iinclude `sdl2-config --cflags`
 
 # Libraries
 LIBS = `sdl2-config --libs`

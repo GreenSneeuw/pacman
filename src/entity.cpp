@@ -10,7 +10,7 @@ void Entity::move(std::vector<std::vector<int>> map) {
     else{ // if not portal, do normal movement
         if (buffered_dir != self.dir){ // input buffering
             switch (buffered_dir){
-                case UP:
+                case UP: // for direction, check if it is valid to change direction
                     if (map[self.y - 1][self.x] == 0) self.dir = buffered_dir;
                     break;
                 case DOWN:
@@ -25,8 +25,8 @@ void Entity::move(std::vector<std::vector<int>> map) {
             }
         }
     
-        switch (self.dir){
-            case UP:
+        switch (self.dir){ // normal movement
+            case UP: // for direction, check if it is valid to move that way
                 if (map[self.y - 1][self.x] == 0) self.y -= 1;
                 break;
             case DOWN:

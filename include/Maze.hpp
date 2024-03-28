@@ -8,7 +8,7 @@
 class Maze
 {
 private:
-std::vector<std::vector<int>> maze;
+std::vector<std::vector<int>> maze; // 2d array for the map
 public:
     Maze(std::vector<std::vector<int>> map):
     maze(map) {};

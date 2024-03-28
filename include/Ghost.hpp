@@ -14,16 +14,15 @@
 class Ghost : public Entity
 {
 private:
-    Type self_type;
-    bool toBeScared = false;
+    Type self_type; // store the real type so it can be reset when scared
 public:
     Ghost(int start_x, int start_y, Type type, Direction start_dir):
     Entity(start_x, start_y, type, start_dir) {self_type = type;};
 
-    Type get_realType() override {return self_type;};
+    Type get_realType() override {return self_type;}; // ghost unique function
     
-    void movement() override;
-    void update(std::vector<std::vector<int>> map) override {
+    void movement() override; // movement function
+    void update(std::vector<std::vector<int>> map) override { // update override
         movement();
         move(map);
     };

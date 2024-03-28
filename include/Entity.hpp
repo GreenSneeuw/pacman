@@ -36,11 +36,7 @@ public:
     void scare() {toBeScared = !toBeScared;};  // marking to be set to scared
     bool getScare() {return toBeScared;};
 
-    void markToMove() {toBeMoved = !toBeMoved;}; // marking to be erased
-    bool getMoved() {return toBeMoved;};
-
-    virtual Type get_realType() {return DOT;};
-    virtual Type change_fruit() {return APPLE;};
+    virtual Type get_realType() {return DOT;}; // return a default value
 
     void change_dir(Direction input) {buffered_dir = input;}; // movement
     void move(std::vector<std::vector<int>>);
@@ -49,7 +45,7 @@ public:
     
     GameObjectStruct get_object() {return self;}; // struct retrieval
 
-    void change_type(Type type) {self.type = type;};
+    void change_type(Type type) {self.type = type;}; // change type
 
     // virtual functions
     virtual void movement() {};

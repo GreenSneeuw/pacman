@@ -7,7 +7,7 @@ u_int32_t start_time = 0;
 void Game::update_all(){
     std::vector<Entity*>* entities_vector = entities.get_entities();
     if(finished){
-
+        // do nothing, just pause game
     }
     else if(reset){ // reset when pacman dies
         for(std::vector<Entity*>::iterator it = entities_vector->begin(); it != entities_vector->end();it++){
@@ -17,7 +17,6 @@ void Game::update_all(){
             if ((*it)->get_object().type > 0 && (*it)->get_object().type < 5){ // ghosts
                 (*it)->reset(14,13);
             }
-            // it++;
         }
         reset = false;
     }
@@ -40,11 +39,11 @@ void Game::update_all(){
             int x, y;
             std::vector<std::vector<int>> map = maze.get_map();
             while (1){
-                x = rand() % map[0].size();
+                x = rand() % map[0].size(); // get a random position
                 y = rand() % map.size();
-                if (map[y][x] == 0){break;}
+                if (map[y][x] == 0){break;} // check if the position is valid
             }
-            add_fruit = {x, y};
+            add_fruit = {x, y}; // set the values to be added later
             (*it)->add_threshold(1000);
         }
             }
@@ -53,7 +52,7 @@ void Game::update_all(){
                 if (scared_time > 7){
                     (*it)->change_type((*it)->get_realType());  // reset scared to original type
                     (*it)->scare();
-                    ghosts_eaten = 0;
+                    ghosts_eaten = 0; // reset the counter for increased score
                 }
                 else if (scared_time > 4){ // make ghost flicker after 5 seconds
                     switch ((*it)->get_object().type){
@@ -68,7 +67,7 @@ void Game::update_all(){
                     }
                 }
                 else{
-                    (*it)->change_type(SCARED);
+                    (*it)->change_type(SCARED); // make scared
                 }
             }
             if((*it)->getMark()){ // erase marked from list
@@ -78,7 +77,7 @@ void Game::update_all(){
                 it++;
             }
         }
-        if (add_fruit.first != -1){
+        if (add_fruit.first != -1){ // add fruit
             add_entity(new Fruit (add_fruit.first, add_fruit.second));
             add_fruit = {-1,-1};
         }
@@ -87,7 +86,7 @@ void Game::update_all(){
 
 void Game::collide_check(Entity *input, std::vector<Entity*>* entities_vector){
 
-    if (input->get_object().type == PACMAN){
+    if (input->get_object().type == PACMAN){ // check if the input really is pacman
         for(std::vector<Entity*>::iterator it = entities_vector->begin(); it != entities_vector->end();it++){
             if ((*it)->get_object().type != PACMAN){ // skip the cycle when the iterator is pacman
                 if ((*it)->get_object().x == input->get_object().x && (*it)->get_object().y == input->get_object().y){ // a collision when x and y are equal for the object and input
@@ -111,12 +110,12 @@ void Game::collide_check(Entity *input, std::vector<Entity*>* entities_vector){
                             break;
 
                         case SCARED:
+                        case SCAREDINV:
                             input->add_score(200*std::pow(2,ghosts_eaten)); // 200 multiplied by 2^(n) with n ghosts eaten
                             ghosts_eaten++;
-                            (*it)->reset(14,13);
-                            (*it)->scare();
+                            (*it)->reset(14,13); // reset the ghost
+                            (*it)->scare(); // remove scared status
                             (*it)->change_type((*it)->get_realType());  // reset scared to original type
-                            input->add_score(500);
                             break;
 
                         default:
@@ -129,7 +128,6 @@ void Game::collide_check(Entity *input, std::vector<Entity*>* entities_vector){
                                     reset = true;
                                 }
                             } else if (type > 6 && type < 13){ // fruits
-                                // (*it)->markToMove();
                                 (*it)->markToRemove();
                                 input->add_score(100 * (type-5)); // points for a fruit
                             }

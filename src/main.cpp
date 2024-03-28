@@ -64,14 +64,6 @@ int main(int /*argc*/, char ** /*argv*/)
         }
     }
 
-    // int x, y;
-    // while (1){
-    //     x = rand() % map.size();
-    //     y = rand() % map.size();
-    //     if (map[y][x] == 0){break;}
-    // }
-    // game.add_entity(new Fruit(x, y));
-
     // Create a new ui object
     UI ui(game.get_map()); // <-- use map from your game objects.
 

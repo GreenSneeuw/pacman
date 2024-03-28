@@ -3,22 +3,20 @@
 #include <ctime>
 
 void Ghost::movement() {
-    // srand(time(NULL));
-        switch (self_type)
-    { // very random movement yes
-    case BLINKY:
-        change_dir(static_cast<Direction>(rand() % 4));
-        break;
-    case PINKY:
-        change_dir(static_cast<Direction>(rand() % 4));
-        break;
-    case INKY:
-        change_dir(static_cast<Direction>(rand() % 4));
-        break;
-    case CLYDE:
-        change_dir(static_cast<Direction>(rand() % 4));
-        break;
-    default:
-        break;
+    switch (self_type) { // very random movement yes
+        case BLINKY:
+            change_dir(static_cast<Direction>(rand() % 4));
+            break;
+        case PINKY:
+            change_dir(static_cast<Direction>(rand() % 4));
+            break;
+        case INKY:
+            change_dir(static_cast<Direction>(rand() % 4));
+            break;
+        case CLYDE:
+            change_dir(static_cast<Direction>(rand() % 4));
+            break;
+        default:
+            break;
     }
 }
