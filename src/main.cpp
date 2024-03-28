@@ -4,11 +4,11 @@
 
 #include "GameObjectStruct.hpp"
 #include "UI.hpp"
-#include "game.hpp"
-#include "player.hpp"
+#include "Game.hpp"
 #include "Entities.hpp"
 #include "Entity.hpp"
-#include "dot.hpp"
+#include "Player.hpp"
+#include "Dot.hpp"
 #include "Ghost.hpp"
 #include <SDL2/SDL.h>
 #include <vector>

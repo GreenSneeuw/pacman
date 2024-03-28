@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include "GameObjectStruct.hpp"
-#include "maze.hpp"
+#include "Maze.hpp"
 #include "Entities.hpp"
 #include "Entity.hpp"
 
@@ -29,7 +29,7 @@ public:
     Entities get_entities() {return entities;} 
 
     void update_all();
-    void collide_check(Entity*);
+    void collide_check(Entity *input, std::vector<Entity*>* entities_vector);
 
     void add_entity(Entity *entity) {entities.add_Entity(entity);};
 };
