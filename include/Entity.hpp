@@ -11,13 +11,14 @@
 
 class Entity
 {
-GameObjectStruct self;
-Direction buffered_dir;
-int score = 0;
-int threshold = 1000;
-bool toBeRemoved = false;
-bool toBeScared = false;
-bool toBeMoved = false;
+private:
+    GameObjectStruct self;
+    Direction buffered_dir;
+    int score = 0;
+    int threshold = 1000;
+    bool toBeRemoved = false;
+    bool toBeScared = false;
+    bool toBeMoved = false;
 
 public:
     Entity(int start_x, int start_y, Type type, Direction start_dir):
